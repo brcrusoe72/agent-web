@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-web"
+version = "0.1.0"
+description = "Drive a real browser from the CLI, for AI agents. Snapshot pages as ref-tagged element lists; click and fill by ref. Playwright-backed, no Rust, no cloud."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "playwright>=1.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+agent-web = "agent_web.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent_web"]
