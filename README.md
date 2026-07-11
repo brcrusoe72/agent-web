@@ -38,6 +38,17 @@ a fragile CSS guess. It's a lighter-weight take on the snapshot+ref model from
 [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser):
 Python + Playwright instead of a Rust/CDP daemon.
 
+## The number
+
+Across 15 real pages, the snapshot an agent consumes is a **median 16× smaller
+than the page's raw HTML — about 6% of the tokens** — while preserving every
+actionable element with a stable ref (1,910 across the set). The win scales with
+page bloat: 640× on Reddit, 96× on nytimes.com, 2× on minimalist Hacker News.
+It's not a text summarizer — on link-heavy pages the snapshot can exceed the
+visible *text*, because it keeps every ref plain-text extraction discards; the
+honest comparison for *acting* on a page is snapshot vs. raw HTML.
+[Full results + method](benchmark/RESULTS.md).
+
 ## How it works
 
 A headless browser auto-starts on your first command and **persists** — page,
