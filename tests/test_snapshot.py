@@ -52,3 +52,14 @@ def test_refs_relocate_the_element(page):
 def test_hidden_input_not_exposed(page):
     snap = take_snapshot(page)
     assert not any("secret" in (e["name"] or "") for e in snap["elements"])
+
+
+@pytest.mark.parametrize('metadata', ['', 'name="password"', 'placeholder="Password"', 'aria-label="Password"'])
+def test_password_value_never_becomes_snapshot_name(page, metadata):
+    page.set_content(f'<input type="password" {metadata}>')
+    page.locator('input').fill('SYNTHETIC-SECRET')
+    snap = take_snapshot(page)
+    assert len(snap['elements']) == 1
+    assert 'SYNTHETIC-SECRET' not in str(snap)
+    assert snap['elements'][0]['role'] == 'textbox'
+    assert snap['elements'][0]['ref']

@@ -32,7 +32,8 @@ _SNAPSHOT_JS = r"""
     const lb = el.getAttribute('aria-labelledby');
     if (!n && lb) { const t = document.getElementById(lb); if (t) n = t.innerText || ''; }
     if (!n) n = el.getAttribute('placeholder') || '';
-    if (!n && el.tagName === 'INPUT' && el.value) n = el.value;
+    // Password values must never become names in agent-visible snapshots.
+    if (!n && el.tagName === 'INPUT' && el.type !== 'password' && el.value) n = el.value;
     if (!n) n = el.getAttribute('alt') || '';
     if (!n) n = (el.innerText || el.textContent || '').trim();
     if (!n) n = el.getAttribute('title') || el.getAttribute('name') || '';
